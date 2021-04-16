@@ -1,3 +1,5 @@
+// Je modifie le fichier pour voir ce que ça donne avec git-cola
+
 #include "tp1.h"
 #include "tp2.h"
 #include <stdio.h>
