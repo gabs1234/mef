@@ -72,14 +72,9 @@ int main(int argc, char const *argv[]) {
 	    node_coord_array,
 	    coorEl);
 
-    /*
     // Matrice et second menbre élémentaire
     float **MatElem;
     MatElem = alloctab_float(nb_node_per_element, nb_node_per_element);
-
-
-    */
-
 
     int len_matrix = sqrt(nb_elements);
     SecMembre = (float)(malloc(len_matrix*siezof(float)));
