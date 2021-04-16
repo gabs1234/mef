@@ -1,0 +1,1 @@
+gcc main.c readMeshFile.c alloctab.c freetab.c cal1Elem.c impCalEl.c select_points.c intElem.c ppquad.c calDerFbase.c matJacob.c det_2x2.c calFbase.c w.c ww.c adwdw.c functions.c  invert_2x2.c -o main
