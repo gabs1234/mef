@@ -1,5 +1,5 @@
-#include "tp2.h"
-#include "tp1.h"
+#include "headers/tp2.h"
+#include "headers/tp1.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -16,7 +16,7 @@ second membres élémentaires et affiche le résultat.
 int main()
 {
 
-  char *file_name = "car1x1t_1";
+  char *file_name = "mesh/car1x1t_1";
   int element_type;
 
   int nb_nodes;
@@ -56,7 +56,7 @@ int main()
 		    node_coord_array,
 		    coorEl);
 
-      /*
+      
       // Matrice et second menbre élémentaire
       float **MatElem;
       MatElem = alloctab_float(nb_node_per_element, nb_node_per_element);
@@ -73,7 +73,7 @@ int main()
       int numRefD1[nb_vrtx_per_element];
       int nbRefF1 = 0;
       int numRefF1[nb_vrtx_per_element];
-      */
+
 
       cal1Elem(0,
 	       nbRefD0,

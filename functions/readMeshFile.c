@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include "tp1.h"
+#include "../headers/tp1.h"
 
 int readMeshFile(char *file_name,
                  int *element_type,
@@ -45,7 +45,7 @@ int readMeshFile(char *file_name,
    fscanf(input, "%d", nb_elements);
    fscanf(input, "%d", element_type);
 
-   /* Initialisation du nombre de vertices et de noeuds par éléments */
+   /* Affectation du nombre de vertices et de noeuds par éléments */
    fscanf(input, "%d", nb_node_per_element);
    fscanf(input, "%d", nb_vrtx_per_element);
 
@@ -57,7 +57,7 @@ int readMeshFile(char *file_name,
      fprintf(stderr, "Erreur: %s\n", strerror(errno));
      return 1;
    }
-   
+
    *vertex_ref_array = alloctab_int(*nb_elements, *nb_vrtx_per_element);
 
    if (*vertex_ref_array == NULL)

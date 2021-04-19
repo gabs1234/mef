@@ -1,5 +1,5 @@
-#include "tp1.h"
-#include "tp2.h"
+#include "../headers/tp1.h"
+#include "../headers/tp2.h"
 #include <stdio.h>
 
 /*
@@ -54,15 +54,15 @@ void cal1Elem(int nrefDom,
 
   /* Initilisation des matrice et second membre élémentaire */
     for(int i=0; i < nbeel; i++)
-      {
-	SMbrElem[i] = 0.0;
-	NuDElem[i] = 1;
-	uDElem[i] = 0.0;
-	for(int j=0; j < nbeel; j++)
-	  {
-	    MatElem[i][j] = 0.0;
-	  }
-      }
+    {
+			SMbrElem[i] = 0.0;
+			NuDElem[i] = 1;
+			uDElem[i] = 0.0;
+			for(int j=0; j < nbeel; j++)
+	  	{
+	    	MatElem[i][j] = 0.0;
+	  	}
+		}
 
   /* Calcul des intégrales surfaciques */
     intElem(typEl, nbeel, coorEl, MatElem, SMbrElem);

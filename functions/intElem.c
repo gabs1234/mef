@@ -1,6 +1,6 @@
-#include "tp1.h"
-#include "tp2.h"
-#include "functions.h"
+#include "../headers/tp1.h"
+#include "../headers/tp2.h"
+#include "../headers/functions.h"
 #include <stdio.h>
 
 /*
