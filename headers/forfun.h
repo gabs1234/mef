@@ -31,7 +31,7 @@ void FORTRANNAME(affsol)
       const int *impfch);
 
 void FORTRANNAME(assmat)
-     (const int *I, const int *J, const float *X, int *ADPRCL, int *NUMCOL,
+     (const int *I, const int *J, float *X, int *ADPRCL, int *NUMCOL,
       int *ADSUCL,  float *LMATRI, int *NEXTAD);
 
 void FORTRANNAME(cdesse)

@@ -6,7 +6,7 @@ void ppquad(int element_type, float *weights, float **coords);
 
 void calFbase(int nombre_nodes_per_elements, float *coords, float *value);
 void calDerFbase(int nombre_nodes_per_elements, float **value);
-void transFK(int element_type, float **nodes, float **point, float **coord);
+void transFK(int element_type, int **nodes, float **point, float *coord);
 void matJacob(int nbeel, float **node_coord, float **DerValues, float **output);
 void det_2x2(float **mat_2x2, float *det);
 void invert_2x2(float **mat_2x2, float det, float **out_2x2);

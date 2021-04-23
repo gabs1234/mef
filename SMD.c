@@ -1,5 +1,6 @@
 #include "headers/tp2.h"
 #include "headers/tp1.h"
+#include "headers/forfun.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,10 +20,11 @@ int main()
   float *Matrice;
   int *FirstAdLi;
   int *FollowingAdLi;
-  int ColInd;
+  int *ColInd;
+  int Nextad;
 
   // Variables pre assemblage
-  char *file_name = "mesh/car1x1q_4";
+  char *file_name = "mesh/car1x1t_1";
   int element_type;
 
   int nb_nodes;
@@ -32,6 +34,9 @@ int main()
   int nb_node_per_element;
   int nb_vrtx_per_element;
   int **vertex_ref_array;
+
+  int I;
+  int J;
 
 
   if(readMeshFile(file_name,
@@ -49,75 +54,93 @@ int main()
   }
   else {printf("Le fichier a été lu avec succès !\n");}
 
+  // A determiner
+  FirstAdLi = (int*)( calloc(nb_nodes, sizeof(int)) );
+  FollowingAdLi = (int*)( calloc(nb_nodes, sizeof(int)) );
+  Matrice = (float*)( calloc(nb_nodes*nb_nodes, sizeof(float)) );
+  ColInd = (int*)( calloc(nb_nodes*nb_nodes, sizeof(int)) );
+  Nextad = 1;
+
+
 
   /* Pour chaque élément, calcul et affichage de la matrice élémentaire
      Puis assemblage en SMD. */
   for(int k = 0; k < nb_elements; k++)
-    {
-
-      // Coordonnées des sommets de l'élément courant
-      float **coorEl;
-      coorEl = alloctab_float(nb_node_per_element,2);
-      select_points(nb_node_per_element,
-		    node_idx_array[k],
-		    node_coord_array,
-		    coorEl);
-
-
-      // Matrice et second menbre élémentaire
-      float **MatElem;
-      MatElem = alloctab_float(nb_node_per_element, nb_node_per_element);
-
-      float SMbrElem[nb_node_per_element];
-
-      int NuDElem[nb_node_per_element];
-      float uDElem[nb_node_per_element];
-
-      // Tableaux de référence
-      int nbRefD0 = 0;
-      int numRefD0[nb_vrtx_per_element];
-      int nbRefD1 = 0;
-      int numRefD1[nb_vrtx_per_element];
-      int nbRefF1 = 0;
-      int numRefF1[nb_vrtx_per_element];
+  {
+    // Coordonnées des sommets de l'élément courant
+    float **coorEl;
+    coorEl = alloctab_float(nb_node_per_element,2);
+    select_points(nb_node_per_element,
+	    node_idx_array[k],
+	    node_coord_array,
+	    coorEl);
 
 
-      cal1Elem(0,
-	       nbRefD0,
-	       numRefD0,
-	       nbRefD1,
-	       numRefD1,
-	       nbRefF1,
-	       numRefF1,
-	       element_type,
-	       nb_node_per_element,
-	       coorEl,
-	       nb_vrtx_per_element,
-	       vertex_ref_array[k],
-	       MatElem,
-	       SMbrElem,
-	       NuDElem,
-	       uDElem);
+    // Matrice et second menbre élémentaire
+    float **MatElem;
+    MatElem = alloctab_float(nb_node_per_element, nb_node_per_element);
 
-      for (int i=0; i < nb_node_per_element; i++) {
-        printf("x: %f, y: %f\n", coorEl[i][0], coorEl[i][1]);
-      }
+    float SMbrElem[nb_node_per_element];
 
-      for (int i=0; i < nb_elements; i++) {
-        for (int j=0; j <= i; j++) {
-         printf("%f", MatElem[i][j]);
+    int NuDElem[nb_node_per_element];
+    float uDElem[nb_node_per_element];
+
+    // Tableaux de référence
+    int nbRefD0 = 0;
+    int numRefD0[nb_vrtx_per_element];
+    int nbRefD1 = 0;
+    int numRefD1[nb_vrtx_per_element];
+    int nbRefF1 = 0;
+    int numRefF1[nb_vrtx_per_element];
+
+
+    cal1Elem(0,
+     nbRefD0,
+     numRefD0,
+     nbRefD1,
+     numRefD1,
+     nbRefF1,
+     numRefF1,
+     element_type,
+     nb_node_per_element,
+     coorEl,
+     nb_vrtx_per_element,
+     vertex_ref_array[k],
+     MatElem,
+     SMbrElem,
+     NuDElem,
+     uDElem);
+
+
+    printf("%d, %d, %d \n", node_idx_array[k][0], node_idx_array[k][1], node_idx_array[k][2]);
+
+
+    for (int i=0; i < nb_node_per_element; i++) {
+      for (int j=0; j < i; j++) {
+        I = node_idx_array[k][i];
+        J = node_idx_array[k][j];
+
+        if (J > I) {
+          J = node_idx_array[k][i];
+          I = node_idx_array[k][j];
         }
-        printf("\n");
+
+        assmat_(&I, &J, &MatElem[i][j], FirstAdLi, ColInd, FollowingAdLi, Matrice, &Nextad);
       }
-
-      // Impression des matrices calculées
-      /*impCalEl(k+1,
-	       element_type,
-	       nb_node_per_element,
-	       MatElem,
-	       SMbrElem,
-	       NuDElem,
-	       uDElem);*/
-
     }
+    for(int i=0; i<nb_nodes*nb_nodes; i++) {
+      printf("%f\n", Matrice[i]);
+    }
+    impCalEl(k+1,
+       element_type,
+       nb_node_per_element,
+       MatElem,
+       SMbrElem,
+       NuDElem,
+       uDElem);
+
+  }
+  free(FirstAdLi);
+  free(FollowingAdLi);
+  free(Matrice);
 }
