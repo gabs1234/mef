@@ -35,8 +35,7 @@ int main()
   int nb_vrtx_per_element;
   int **vertex_ref_array;
 
-  int I;
-  int J;
+  int I, J, i, j, k;
 
 
   if(readMeshFile(file_name,
@@ -65,7 +64,7 @@ int main()
 
   /* Pour chaque élément, calcul et affichage de la matrice élémentaire
      Puis assemblage en SMD. */
-  for(int k = 0; k < nb_elements; k++)
+  for(k = 0; k < nb_elements; k++)
   {
     // Coordonnées des sommets de l'élément courant
     float **coorEl;
@@ -113,23 +112,20 @@ int main()
 
 
     printf("%d, %d, %d \n", node_idx_array[k][0], node_idx_array[k][1], node_idx_array[k][2]);
+    //Remplissons d'abord la diagonale de Matrice
+    
 
 
-    for (int i=0; i < nb_node_per_element; i++) {
-      for (int j=0; j < i; j++) {
+    for (i=0; i < nb_node_per_element; i++) {
+      for (j=0; j < nb_node_per_element; j++) {
         I = node_idx_array[k][i];
         J = node_idx_array[k][j];
 
-        if (J > I) {
-          J = node_idx_array[k][i];
-          I = node_idx_array[k][j];
+        if (I > J) {
+          assmat_(&I, &J, &MatElem[i][j], FirstAdLi, ColInd, FollowingAdLi, Matrice, &Nextad);
         }
 
-        assmat_(&I, &J, &MatElem[i][j], FirstAdLi, ColInd, FollowingAdLi, Matrice, &Nextad);
       }
-    }
-    for(int i=0; i<nb_nodes*nb_nodes; i++) {
-      printf("%f\n", Matrice[i]);
     }
     impCalEl(k+1,
        element_type,
@@ -139,6 +135,10 @@ int main()
        NuDElem,
        uDElem);
 
+  }
+
+  for(i=0; i<nb_nodes*nb_nodes; i++) {
+    printf("%f\n", Matrice[i]);
   }
   free(FirstAdLi);
   free(FollowingAdLi);
