@@ -18,10 +18,15 @@ int main()
   int Nb_lignes;
   int Nb_coefs;
   float *Matrice;
-  int *FirstAdLi;
-  int *FollowingAdLi;
+  float *LowMat;
+  int *AdPrCoefLi;
+  int *AdSuccLi;
   int *ColInd;
   int Nextad;
+
+  float *SecMembre;
+  int *NumDLDir;
+  float *ValDLDir;
 
   // Variables pre assemblage
   char *file_name = "mesh/car1x1t_1";
@@ -53,19 +58,24 @@ int main()
   }
   else {printf("Le fichier a été lu avec succès !\n");}
 
+  // Nombre maximal de coefficient,
+  int NbCoefMax = (nb_nodes*(nb_nodes+1))/2;
+
   // A determiner
-  FirstAdLi = (int*)( calloc(nb_nodes, sizeof(int)) );
-  FollowingAdLi = (int*)( calloc(nb_nodes, sizeof(int)) );
-  Matrice = (float*)( calloc(nb_nodes*nb_nodes, sizeof(float)) );
+  AdPrCoefLi = (int*)( calloc(nb_nodes, sizeof(int)) );
+  AdSuccLi = (int*)( calloc(nb_nodes, sizeof(int)) );
+  Matrice = (float*)( calloc(nb_nodes + NbCoefMax , sizeof(float)) );
+  LowMat = (float*)( calloc(NbCoefMax , sizeof(float)) );
   ColInd = (int*)( calloc(nb_nodes*nb_nodes, sizeof(int)) );
   Nextad = 1;
+  Nb_coefs = 0;
+  LowMat = (Matrice+nb_nodes+1);
 
 
 
   /* Pour chaque élément, calcul et affichage de la matrice élémentaire
      Puis assemblage en SMD. */
-  for(k = 0; k < nb_elements; k++)
-  {
+  for(k = 0; k < nb_elements; k++) {
     // Coordonnées des sommets de l'élément courant
     float **coorEl;
     coorEl = alloctab_float(nb_node_per_element,2);
@@ -110,23 +120,28 @@ int main()
      NuDElem,
      uDElem);
 
-
-    printf("%d, %d, %d \n", node_idx_array[k][0], node_idx_array[k][1], node_idx_array[k][2]);
-    //Remplissons d'abord la diagonale de Matrice
-    
-
-
+    // Remplissons d'abord la diagonale de Matrice
+    for (i=0; i < nb_node_per_element; i++) {
+      I = node_idx_array[k][i];
+      Matrice[I] = Matrice[I] + MatElem[i][i];
+    }
+    // Puis la Matrice inférieure LowMat
     for (i=0; i < nb_node_per_element; i++) {
       for (j=0; j < nb_node_per_element; j++) {
         I = node_idx_array[k][i];
         J = node_idx_array[k][j];
 
         if (I > J) {
-          assmat_(&I, &J, &MatElem[i][j], FirstAdLi, ColInd, FollowingAdLi, Matrice, &Nextad);
+          assmat_(&I, &J, &MatElem[i][j], AdPrCoefLi, ColInd, AdSuccLi, LowMat, &Nextad);
+          Nb_coefs++;
         }
 
       }
     }
+
+    // Traitons le remplissage du second membre
+    
+
     impCalEl(k+1,
        element_type,
        nb_node_per_element,
@@ -140,7 +155,11 @@ int main()
   for(i=0; i<nb_nodes*nb_nodes; i++) {
     printf("%f\n", Matrice[i]);
   }
-  free(FirstAdLi);
-  free(FollowingAdLi);
+
+  EcrSMD(nb_nodes, NbCoef, SecMembre, NumDLDir, ValDLDir, AdPrCoefLi, Matrice, NumCol, AdSuccLi);
+
+  free(AdPrCoefLi);
+  free(AdSuccLi);
+  free(ColInd);
   free(Matrice);
 }
