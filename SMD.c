@@ -1,5 +1,6 @@
 #include "headers/tp2.h"
 #include "headers/tp1.h"
+#include "headers/tp3.h"
 #include "headers/forfun.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,14 +16,14 @@ TODO: Description
 int main()
 {
   // Variables SMD
-  int Nb_lignes;
-  int Nb_coefs;
+  int nb_lignes;
+  int nb_coefs;
   float *Matrice;
   float *LowMat;
   int *AdPrCoefLi;
   int *AdSuccLi;
   int *ColInd;
-  int Nextad;
+  int NextAd;
 
   float *SecMembre;
   int *NumDLDir;
@@ -58,20 +59,23 @@ int main()
   }
   else {printf("Le fichier a été lu avec succès !\n");}
 
-  // Nombre maximal de coefficient,
+  // Nombre maximal de coefficients,
   int NbCoefMax = (nb_nodes*(nb_nodes+1))/2;
 
-  // A determiner
+  // Initialisations de la SMD
   AdPrCoefLi = (int*)( calloc(nb_nodes, sizeof(int)) );
   AdSuccLi = (int*)( calloc(nb_nodes, sizeof(int)) );
   Matrice = (float*)( calloc(nb_nodes + NbCoefMax , sizeof(float)) );
   LowMat = (float*)( calloc(NbCoefMax , sizeof(float)) );
   ColInd = (int*)( calloc(nb_nodes*nb_nodes, sizeof(int)) );
-  Nextad = 1;
-  Nb_coefs = 0;
+  NextAd = 1;
+  nb_lignes = nb_nodes;
   LowMat = (Matrice+nb_nodes+1);
 
-
+  SecMembre = (float*)( calloc(nb_nodes, sizeof(float)) );
+  NumDLDir = (int*)( malloc(nb_nodes*sizeof(float)) );
+  ValDLDir = (float*)( malloc(nb_nodes*sizeof(float)) );
+  
 
   /* Pour chaque élément, calcul et affichage de la matrice élémentaire
      Puis assemblage en SMD. */
@@ -104,43 +108,38 @@ int main()
 
 
     cal1Elem(0,
-     nbRefD0,
-     numRefD0,
-     nbRefD1,
-     numRefD1,
-     nbRefF1,
-     numRefF1,
-     element_type,
-     nb_node_per_element,
-     coorEl,
-     nb_vrtx_per_element,
-     vertex_ref_array[k],
-     MatElem,
-     SMbrElem,
-     NuDElem,
-     uDElem);
+      nbRefD0,
+      numRefD0,
+      nbRefD1,
+      numRefD1,
+      nbRefF1,
+      numRefF1,
+      element_type,
+      nb_node_per_element,
+      coorEl,
+      nb_vrtx_per_element,
+      vertex_ref_array[k],
+      MatElem,
+      SMbrElem,
+      NuDElem,
+      uDElem);
 
-    // Remplissons d'abord la diagonale de Matrice
-    for (i=0; i < nb_node_per_element; i++) {
-      I = node_idx_array[k][i];
-      Matrice[I] = Matrice[I] + MatElem[i][i];
-    }
-    // Puis la Matrice inférieure LowMat
-    for (i=0; i < nb_node_per_element; i++) {
-      for (j=0; j < nb_node_per_element; j++) {
-        I = node_idx_array[k][i];
-        J = node_idx_array[k][j];
-
-        if (I > J) {
-          assmat_(&I, &J, &MatElem[i][j], AdPrCoefLi, ColInd, AdSuccLi, LowMat, &Nextad);
-          Nb_coefs++;
-        }
-
-      }
-    }
-
-    // Traitons le remplissage du second membre
-    
+    assemblage(k,
+      Matrice,
+      nb_node_per_element,
+      node_idx_array,
+      MatElem,
+      AdPrCoefLi,
+      ColInd,
+      AdSuccLi,
+      LowMat,
+      &NextAd,
+      NuDElem,
+      SMbrElem,
+      uDElem,
+      NumDLDir,
+      ValDLDir,
+      SecMembre);
 
     impCalEl(k+1,
        element_type,
@@ -152,14 +151,21 @@ int main()
 
   }
 
-  for(i=0; i<nb_nodes*nb_nodes; i++) {
-    printf("%f\n", Matrice[i]);
-  }
+  AdPrCoefLi[nb_lignes-1] = NextAd;
+  //A verifier
+  nb_coefs = AdPrCoefLi[nb_lignes-1]-1;
 
-  EcrSMD(nb_nodes, NbCoef, SecMembre, NumDLDir, ValDLDir, AdPrCoefLi, Matrice, NumCol, AdSuccLi);
+
+  char filename[10] = "SMD_output";
+
+  //EcrSMD(filename, nb_nodes, Nb_coefs, SecMembre, NumDLDir, ValDLDir, AdPrCoefLi, Matrice, ColInd, AdSuccLi);
+
 
   free(AdPrCoefLi);
   free(AdSuccLi);
   free(ColInd);
   free(Matrice);
+  free(SecMembre);
+  free(NumDLDir);
+  free(ValDLDir);
 }

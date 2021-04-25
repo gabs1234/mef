@@ -1,0 +1,38 @@
+/*
+void EcrSMD(char *nomfichier,
+            int NbLign,
+            int NbCoef,
+            float *SecMembre,
+            int *NumDLDir,
+            float *ValDLDir,
+            int *AdPrCoefLi,
+            float *Matrice,
+            int *NumCol,
+            int *AdSuccLi);
+
+void LecSMD(char* nomfichier,
+           int *Nb_lignes,
+           float **SecMembre,
+           int **NumDLDir,
+           float **ValDLDir,
+           int **AdPrCoefLi,
+           float **Matrice,
+           int **AdSuccLi,
+           int **NumCol)
+*/
+void assemblage(int k,
+                float *Matrice,
+                int nb_node_per_element,
+                int **node_idx_array,
+                float **MatElem,
+                int *AdPrCoefLi,
+                int *ColInd,
+                int *AdSuccLi,
+                float *LowMat,
+                int *NextAd,
+                int *NuDElem,
+                float *SMbrElem,
+                float *uDElem,
+                int *NumDLDir,
+                float *ValDLDir,
+                float *SecMembre);
