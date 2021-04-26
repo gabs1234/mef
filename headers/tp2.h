@@ -2,6 +2,7 @@
 
 
 void select_points(int nombre_points, int num[], float *coord_set[], float *coord_selected[]);
+void numNaret(int refAret, int nb_node_per_element, int *refNodes);
 void ppquad(int element_type, float *weights, float **coords);
 
 void calFbase(int nombre_nodes_per_elements, float *coords, float *value);

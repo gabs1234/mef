@@ -5,5 +5,5 @@
 void numNaret(int refAret, int nb_node_per_element, int *refNodes)
 {
   refNodes[0] = refAret;
-  refNodes[1] = refAret + 1 % nb_node_per_element; 
+  refNodes[1] = (refAret + 1) % nb_node_per_element; 
 }
