@@ -34,7 +34,6 @@ int readNumRef(char *file_name,
    *tab_numRefDirichletHomogene = malloc(sizeof(int)*(*N_numRefDirichletHomogene));
    for(i=0; i < *N_numRefDirichletHomogene; i++)
    {
-      printf("== ! == i= %d\n",i);
       fscanf(input, "%d", &((*tab_numRefDirichletHomogene)[i]));
    }
 
@@ -43,7 +42,6 @@ int readNumRef(char *file_name,
    *tab_numRefDirichletInhomogene = malloc(sizeof(int)*(*N_numRefDirichletInhomogene));
    for(i=0; i < *N_numRefDirichletInhomogene; i++)
    {
-      printf("== ! == i= %d\n",i);
       fscanf(input, "%d", &((*tab_numRefDirichletInhomogene)[i]));
    }
    /* Lecture du nombre de numeros de reference Neumann*/
@@ -51,7 +49,6 @@ int readNumRef(char *file_name,
    *tab_numRefNeumann = malloc(sizeof(int)*(*N_numRefNeumann));
    for(i=0; i < *N_numRefNeumann; i++)
    {
-      printf("== ! == i= %d\n",i);
       fscanf(input, "%d", &((*tab_numRefNeumann)[i]));
    }
    

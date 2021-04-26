@@ -1,7 +1,9 @@
-/* Fonction renvoyant la valeur des fonctions de base sur un noeud */
+/* Fonction renvoyant la référence des noeuds locaux d'une arrête de numéro de référence */
 
-float calFbase(int fonc_base, int aret_ref)
+/* refnodes tableau de taille 2*/
+
+void numNaret(int refAret, int nb_node_per_element, int *refNodes)
 {
-  if(fonc_base == aret_ref){return 1.0;}
-  else{return 0.0;}
+  refNodes[0] = refAret;
+  refNodes[1] = refAret + 1 % nb_node_per_element; 
 }

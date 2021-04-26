@@ -68,5 +68,31 @@ void cal1Elem(int nrefDom,
     intElem(typEl, nbeel, coorEl, MatElem, SMbrElem);
 
   /* Prise en compte des conditions limites */
-    /* À faire après validation */
+
+  int l; /* variable pour itérer */
+  int p[2]; /* variables pour contenir la référence des noeuds d'une arête */
+
+    for(int k = 0; k < nbaret; k++) /* On boucle sur les arêtes */
+    {
+       /* On boucle sur les conditions de dirichlet homogènes */
+       for(l= 0; l < nbRefD0; l++)
+       {
+          if(numRefD0[l]==nrefArEl[k])
+          {
+             numNaret(l, nbeel, p);
+             NuDElem[p[0]] = 0;
+             NuDElem[p[1]] = 0;
+          }
+       }
+       /* On boucle sur les conditions de dirichlet inhomogènes */
+       for(l= 0; l < nbRefD1; l++)
+       { 
+          if(numRefD1[l]==nrefArEl[k])
+          {
+             numNaret(l, nbeel, p);
+             NuDElem[p[0]] = -1;
+             NuDElem[p[1]] = -1;
+          }
+       }
+    }
 }
