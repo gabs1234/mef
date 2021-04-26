@@ -15,7 +15,7 @@ TODO: Lit le fichier de sauvegarde et affiche son contenu
 int main()
 {
   /* Declaration des variables */
-  char* file_name;
+  char *file_name;
   int Nb_lignes;
   float *SecMembre;
   int *NumDLDir;
@@ -40,14 +40,7 @@ int main()
     &AdSuccLi,
     &NumCol);
 
-  // Avant d'utiliser affsmd_, trouver bug dans LecSMD. Je crois que ça vient de l'init des mallocs dans LecSMD.
-  for (int i = 0; i<Nb_lignes; i++) {
-    printf("%f\n", SecMembre[i]);
-  }
-
-
   /* Impression de la matrice */
-  /*
   affsmd_(&Nb_lignes,
     AdPrCoefLi,
     NumCol,
@@ -55,7 +48,8 @@ int main()
     Matrice,
     SecMembre,
     NumDLDir,
-    ValDLDir);*/
+    ValDLDir);
+    
   free(SecMembre);
   free(NumDLDir);
   free(ValDLDir);

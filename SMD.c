@@ -150,31 +150,12 @@ int main()
   }
 
   AdPrCoefLi[nb_lignes-1] = NextAd;
-  //A verifier
+  //TODO: A verifier
   nb_coefs = AdPrCoefLi[nb_lignes-1]-1;
 
   char filename[10] = "SMD_output";
 
   EcrSMD(filename, &nb_lignes, SecMembre, NumDLDir, ValDLDir, AdPrCoefLi, Matrice, ColInd, AdSuccLi);
-
-  /* Petit test local avant d'utiliser LecSMD, qui fonctionne !
-  FILE *input = fopen(filename, "rb");
-  if (input == NULL) {
-    printf("Error opening file\n");
-  }
-
-  float *SecMembreTest = (float*)(malloc(nb_lignes*sizeof(float)));
-  int nb_lignesTest;
-  fread(&nb_lignesTest, sizeof(int), 1, input);
-  fread(SecMembreTest, sizeof(float), nb_lignes, input);
-
-  printf("%d\n", nb_lignesTest);
-  for (int i=0; i<nb_lignes; i++) {
-    printf("test: %f\n", SecMembreTest[i]);
-    printf("%f\n", SecMembre[i]);
-  }
-  fclose(input);
-  */
 
   free(AdPrCoefLi);
   free(AdSuccLi);
