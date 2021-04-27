@@ -1,10 +1,12 @@
-#include "tp1.h"
-#include "tp2.h"
-#include "tp3.h"
-#include "tp4.h"
+#include "headers/tp1.h"
+#include "headers/tp2.h"
+#include "headers/tp3.h"
+#include "headers/tp4.h"
 #include "headers/forfun.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+/* Ceci est un commentaire uniquement destiné à modifier le fichier */
 
 int main(int argc, char const *argv[]) {
   // Variables SMD
@@ -18,10 +20,10 @@ int main(int argc, char const *argv[]) {
   int *NumCol;
 
   // Variables SMO
-  float *SecMembreO = SecMembre;
-  int *AdPrCoLiO = AdPrCoefLi;
-  float MatriceO;
-  int NumColO;
+  float *SecMembreO;
+  int *AdPrCoLiO;
+  float *MatriceO;
+  int *NumColO;
 
   // Lecture du nom de fichier à ouvrir
   printf("Entrez le nom du fichier SMD à lire\n");
@@ -55,18 +57,28 @@ int main(int argc, char const *argv[]) {
       ValDLDir);
   }
 
-
-
   // TODO : dSMDaSMO(...)
+  cdesse_(&Nb_lignes,
+          AdPrCoefLi,
+          NumCol,
+          AdSuccLi,
+          Matrice,
+          SecMembre,
+          NumDLDir,
+          ValDLDir,
+          AdPrCoLiO,
+          NumColO,
+          MatriceO,
+          SecMembreO);
 
   printf("Entrez le nom du fichier à générer\n");
   char *file_name_smo = get_string(50);
 
   //generer le fichier binaire
-  EcrSM0(file_name_smo, &NbLign, SecMembreO, AdPrCoLiO, MatriceO, NumColO);
+  EcrSMO(file_name_smo, &Nb_lignes, SecMembreO, AdPrCoLiO, MatriceO, NumColO);
 
   //Lire le fichier pour tester
-  LecSMO(file_name_smo, &NbLign, &SecMembreO, &AdPrCoLiO, &MatriceO, &NumColO);
+  LecSMO(file_name_smo, &Nb_lignes, &SecMembreO, &AdPrCoLiO, &MatriceO, &NumColO);
 
   // Affichage
   printf("Voulez vous afficher la matrice SMO ? \n");
@@ -74,7 +86,7 @@ int main(int argc, char const *argv[]) {
   scanf("oui: 1, non: 0 -> %d \n", &read);
   //Afficher la Matrice SMO
   if( read ) {
-    affsmo_(&NbLign, AdPrCoLiO, NumColO, MatriceO, SecMembreO);
+    affsmo_(&Nb_lignes, AdPrCoLiO, NumColO, MatriceO, SecMembreO);
   }
 
 
