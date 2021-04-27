@@ -40,6 +40,8 @@ int main(int argc, char const *argv[]) {
     &AdSuccLi,
     &NumCol);
 
+  printf("On est bien arrivé ici !");
+
   // Affichage
   printf("Voulez vous afficher la matrice SMD ? \n");
   int read = 0;

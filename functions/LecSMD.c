@@ -27,22 +27,16 @@ void LecSMD(char *filename,
   FILE *input = fopen(filename, "rb");
 	if (input == NULL)
 	{
-    //TODO: strerror
-		//fprintf(stderr, "Erreur: ...\n");
     printf("Erreur: fichier non ouvert\n");
 		exit(EXIT_FAILURE);
 	}
 
   int Nb_coefs;
-  /* Impression des éléments ATTENTION L'ORDRE IMPORTE */
+  /* Lecture des éléments ATTENTION L'ORDRE IMPORTE */
   fread(Nb_lignes, sizeof(int), 1, input);
 
   *SecMembre = (float*)(malloc(*Nb_lignes*sizeof(float)));
   fread(*SecMembre, sizeof(float), *Nb_lignes, input);
-
-  for (int i = 0; i < *Nb_lignes; i++) {
-    printf("%f\n", *(SecMembre)[i]);
-  }
 
   *NumDLDir = (int*)malloc(*Nb_lignes*sizeof(int));
   fread(*NumDLDir, sizeof(int), *Nb_lignes, input);

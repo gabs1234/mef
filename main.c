@@ -1,6 +1,7 @@
 #include "headers/tp1.h"
 #include "headers/tp2.h"
 #include "headers/tp3.h"
+#include "headers/forfun.h"
 #include "readNumRef.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -206,6 +207,19 @@ int main()
   char *filename = get_string(50);
 
   EcrSMD(filename, &nb_lignes, SecMembre, NumDLDir, ValDLDir, AdPrCoefLi, Matrice, ColInd, AdSuccLi);
+
+  /* Impression de la matrice */
+  printf("Nombre de lignes : %d\n", nb_lignes);
+  int z;
+  for(z = 0; z < nb_lignes; z++){printf("SM: %d: %f\n",z,SecMembre[z]);}
+  for(z = 0; z < nb_lignes; z++){printf("ND: %d: %d\n",z,NumDLDir[z]);}
+  for(z = 0; z < nb_lignes; z++){printf("VD: %d: %f\n",z,ValDLDir[z]);}
+  for(z = 0; z < nb_lignes; z++){printf("AC: %d: %d\n",z,AdPrCoefLi[z]);}
+  int Nb_coefs = AdPrCoefLi[nb_lignes-1]-1;
+  printf("Le nombre de coefficients est : %d\n",Nb_coefs);
+  for(z = 0; z < nb_lignes+Nb_coefs; z++){printf("MA: %d: %f\n",z,Matrice[z]);}
+  for(z = 0; z < nb_lignes; z++){printf("AS: %d: %d\n",z,AdSuccLi[z]);}
+  for(z = 0; z < nb_lignes; z++){printf("NC: %d: %d\n",z,ColInd[z]);}
 
   free(AdPrCoefLi);
   free(AdSuccLi);

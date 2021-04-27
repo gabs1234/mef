@@ -28,7 +28,7 @@ int main()
   int *NumCol;
 
   /* Lecture du nom de fichier à ouvrir */
-  printf("Entrez le nom du fichier à générer\n");
+  printf("Entrez le nom du fichier à ouvrir\n");
   file_name = get_string(50);
 
   /* Lecture du fichier */
@@ -43,14 +43,27 @@ int main()
     &NumCol);
 
   /* Impression de la matrice */
-  affsmd_(&Nb_lignes,
+  printf("Nombre de lignes : %d\n", Nb_lignes);
+  int z;
+  for(z = 0; z < Nb_lignes; z++){printf("SM: %d: %f\n",z,SecMembre[z]);}
+  for(z = 0; z < Nb_lignes; z++){printf("ND: %d: %d\n",z,NumDLDir[z]);}
+  for(z = 0; z < Nb_lignes; z++){printf("VD: %d: %f\n",z,ValDLDir[z]);}
+  for(z = 0; z < Nb_lignes; z++){printf("AC: %d: %d\n",z,AdPrCoefLi[z]);}
+  int Nb_coefs = AdPrCoefLi[Nb_lignes-1]-1;
+  printf("Le nombre de coefficients est : %d\n",Nb_coefs);
+  for(z = 0; z < Nb_lignes+Nb_coefs; z++){printf("MA: %d: %f\n",z,Matrice[z]);}
+  for(z = 0; z < Nb_lignes; z++){printf("AS: %d: %d\n",z,AdSuccLi[z]);}
+  for(z = 0; z < Nb_lignes; z++){printf("NC: %d: %d\n",z,NumCol[z]);}
+  
+  /* Impression de la matrice */
+  /*affsmd_(&Nb_lignes,
     AdPrCoefLi,
     NumCol,
     AdSuccLi,
     Matrice,
     SecMembre,
     NumDLDir,
-    ValDLDir);
+    ValDLDir);*/
 
   free(SecMembre);
   free(NumDLDir);

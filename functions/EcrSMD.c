@@ -46,7 +46,6 @@ void EcrSMD(char *filename,
   FILE * output = fopen(filename, "wb+");
 
   int NbCoef = AdPrCoefLi[*NbLign-1]-1;
-
   fwrite(NbLign, sizeof(int), 1, output);
   fwrite(SecMembre, sizeof(float), *NbLign, output);
   fwrite(NumDLDir, sizeof(int), *NbLign, output);
