@@ -1,3 +1,5 @@
+#include "headers/tp1.h"
+#include "headers/tp2.h"
 #include "headers/tp3.h"
 #include "headers/forfun.h"
 #include <stdio.h>
@@ -27,7 +29,7 @@ int main()
 
   /* Lecture du nom de fichier à ouvrir */
   printf("Entrez le nom du fichier à générer\n");
-  file_name = "SMD_output";
+  file_name = get_string(50);
 
   /* Lecture du fichier */
   LecSMD(file_name,
@@ -49,7 +51,7 @@ int main()
     SecMembre,
     NumDLDir,
     ValDLDir);
-    
+
   free(SecMembre);
   free(NumDLDir);
   free(ValDLDir);

@@ -36,10 +36,13 @@ void LecSMD(char *filename,
   int Nb_coefs;
   /* Impression des éléments ATTENTION L'ORDRE IMPORTE */
   fread(Nb_lignes, sizeof(int), 1, input);
-  printf("%d\n", *Nb_lignes);
 
   *SecMembre = (float*)(malloc(*Nb_lignes*sizeof(float)));
   fread(*SecMembre, sizeof(float), *Nb_lignes, input);
+
+  for (int i = 0; i < *Nb_lignes; i++) {
+    printf("%f\n", *(SecMembre)[i]);
+  }
 
   *NumDLDir = (int*)malloc(*Nb_lignes*sizeof(int));
   fread(*NumDLDir, sizeof(int), *Nb_lignes, input);
