@@ -90,6 +90,14 @@ int main() {
   //generer le fichier binaire
   EcrSMO(file_name_smo, &Nb_lignes, SecMembreO, AdPrCoLiO, MatriceO, NumColO);
 
+  /* Impression des matrices */
+  int z;
+  for(z = 0; z < Nb_lignes; z++){printf("SMO: %d: %f\n",z,SecMembreO[z]);}
+  for(z = 0; z < Nb_lignes; z++){printf("ACO: %d: %d\n",z,AdPrCoLiO[z]);}
+  int NbCoefO = AdPrCoLiO[Nb_lignes-1]-1;
+  for(z = 0; z < Nb_lignes+NbCoefO; z++){printf("MAO: %d: %f\n",z,MatriceO[z]);}
+  for(z = 0; z < NbCoefO; z++){printf("NCO: %d: %d\n",z,NumColO[z]);}
+
   free(SecMembre);
   free(NumDLDir);
   free(ValDLDir);

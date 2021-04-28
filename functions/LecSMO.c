@@ -39,7 +39,7 @@ void LecSMO(char *filename,
   *AdPrCoLiO = (int*)malloc(*NbLign*sizeof(int));
   fread(*AdPrCoLiO, sizeof(int), *NbLign, input);
 
-  int Nb_coef = *AdPrCoLiO[*NbLign-1]-1;
+  int Nb_coef = (*AdPrCoLiO)[*NbLign-1]-1;
 
   *MatriceO = (float*)malloc((*NbLign+Nb_coef)*sizeof(float));
   fread(*MatriceO, sizeof(float), *NbLign+Nb_coef, input);
