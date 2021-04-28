@@ -199,27 +199,40 @@ int main()
   }
 
   AdPrCoefLi[nb_lignes-1] = NextAd;
-  nb_coefs = AdPrCoefLi[nb_lignes-1];
+  nb_coefs = AdPrCoefLi[nb_lignes-1] - 1;
   printf("%d\n", nb_coefs);
 
-  printf("Entrez un nom pour le fichier SMD\n");
+  //printf("Entrez un nom pour le fichier SMD\n");
+  //char *filename = get_string(50);
 
-  char *filename = get_string(50);
+  // AFficher SMD
+  affsmd_(&nb_lignes, AdPrCoefLi, ColInd, AdSuccLi, Matrice, SecMembre, NumDLDir, ValDLDir);
 
-  EcrSMD(filename, &nb_lignes, SecMembre, NumDLDir, ValDLDir, AdPrCoefLi, Matrice, ColInd, AdSuccLi);
+  // Variables SMO
+  float *SecMembreO = (float*)malloc(nb_lignes*sizeof(float));
+  int *AdPrCoLiO = (int*)malloc(nb_lignes*sizeof(int));
+  float *MatriceO = (float*)malloc(nb_lignes+nb_coefs*sizeof(float));
+  int *NumColO = (int*)malloc(nb_coefs*sizeof(int));
 
-  /* Impression de la matrice */
-  printf("Nombre de lignes : %d\n", nb_lignes);
-  int z;
-  for(z = 0; z < nb_lignes; z++){printf("SM: %d: %f\n",z,SecMembre[z]);}
-  for(z = 0; z < nb_lignes; z++){printf("ND: %d: %d\n",z,NumDLDir[z]);}
-  for(z = 0; z < nb_lignes; z++){printf("VD: %d: %f\n",z,ValDLDir[z]);}
-  for(z = 0; z < nb_lignes; z++){printf("AC: %d: %d\n",z,AdPrCoefLi[z]);}
-  int Nb_coefs = AdPrCoefLi[nb_lignes-1]-1;
-  printf("Le nombre de coefficients est : %d\n",Nb_coefs);
-  for(z = 0; z < nb_lignes+Nb_coefs; z++){printf("MA: %d: %f\n",z,Matrice[z]);}
-  for(z = 0; z < nb_lignes; z++){printf("AS: %d: %d\n",z,AdSuccLi[z]);}
-  for(z = 0; z < nb_lignes; z++){printf("NC: %d: %d\n",z,ColInd[z]);}
+  // Assembler SMO
+  cdesse_(&nb_lignes,
+          AdPrCoefLi,
+          ColInd,
+          AdSuccLi,
+          Matrice,
+          SecMembre,
+          NumDLDir,
+          ValDLDir,
+          AdPrCoLiO,
+          NumColO,
+          MatriceO,
+          SecMembreO);
+
+  // AFficher SMO
+  affsmo_(&nb_lignes, AdPrCoLiO, NumColO, MatriceO, SecMembreO);
+
+  //Assembler Stockage Profile
+  
 
   free(AdPrCoefLi);
   free(AdSuccLi);
@@ -228,4 +241,9 @@ int main()
   free(SecMembre);
   free(NumDLDir);
   free(ValDLDir);
+
+  free(SecMembreO);
+  free(AdPrCoLiO);
+  free(MatriceO);
+  free(NumColO);
 }
