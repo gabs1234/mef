@@ -10,6 +10,7 @@ void ppquad(int element_type, float *weights, float **coords)
     {
       case 1:
 	{
+          /* Cas du quadrangle */
 	  float w1 = 1.0/36.0;
 	  float w2 = 1.0/9.0;
 	  float w3 = 4.0/9.0;
@@ -46,6 +47,7 @@ void ppquad(int element_type, float *weights, float **coords)
 	}
       case 2:
 	{
+          /* Cas du triangle */
 	  float w = 1.0/6.0;
 
           weights[0] = w;
@@ -62,6 +64,7 @@ void ppquad(int element_type, float *weights, float **coords)
 	}
       case 3:
 	{
+          /* Cas du segment */
 	  float w1 = 1.0/6.0;
 	  float w2 = 2.0/3.0;
 

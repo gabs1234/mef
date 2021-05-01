@@ -18,13 +18,32 @@
 --------------------------------------------------------------------------------
 */
 
-void calDerFbase(int nombre_nodes_per_elements, float **value)
+void calDerFbase(int type_element, float **value)
 {
-   /* Cas du triangle : coordonnées barycentriques */
-   value[0][0] = 1.0;
-   value[0][1] = 0.0;
-   value[1][0] = 0.0;
-   value[1][1] = 1.0;
-   value[2][0] = -1.0;
-   value[2][1] = -1.0;
+  switch(type_element)
+    {
+      case 1:
+	{
+          break;
+	}
+      case 2:
+	{
+          /* Cas du triangle : coordonnées barycentriques */
+          value[0][0] = 1.0;
+          value[0][1] = 0.0;
+          value[1][0] = 0.0;
+          value[1][1] = 1.0;
+          value[2][0] = -1.0;
+          value[2][1] = -1.0;
+	  break;
+	}
+      case 3:
+	{
+          /* Cas du segment */
+          /* coords[0] représente l'abscisse linéaire */
+          value[0][0] = -1.0;
+          value[1][0] = 1.0;
+	  break;
+	}
+    }
 }

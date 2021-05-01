@@ -80,10 +80,7 @@ void cal1Elem(int nrefDom,
        {
           if(numRefD0[l]==nrefArEl[k])
           {
-             printf("&&&& HELLO THERE !!!");
-             printf("Noeuds de l'arrête %d égaux à 0\n", k);
              numNaret(k, nbeel, p);
-             printf("Les id des noeuds associés à l'arête %d sont %d et %d\n",k,p[0],p[1]);
              NuDElem[p[0]] = 0;
              NuDElem[p[1]] = 0;
           }
@@ -93,10 +90,7 @@ void cal1Elem(int nrefDom,
        { 
           if(numRefD1[l]==nrefArEl[k])
           {
-             printf("&&&& HELLO THERE !!!");
-             printf("Noeuds de l'arrête %d égaux à -1\n", k);
              numNaret(k, nbeel, p);
-             printf("Les id des noeuds associés à l'arête %d sont %d et %d\n",k,p[0],p[1]);
              NuDElem[p[0]] = -1;
              NuDElem[p[1]] = -1;
              uDElem[p[0]] = UD(coorEl[p[0]][0],coorEl[p[0]][1]);
@@ -104,4 +98,29 @@ void cal1Elem(int nrefDom,
           }
        }
     }
+
+   /* Calcul des second membres élémentaires d'arêtes pour celles portant un un numéro de référence Neumann ou Fourier */
+   /* (dont le numéro global est contenu dans numRefF1) */
+   for(int p = 0; p < nbaret; p++)
+   {
+      for(int k = 0; k < nbRefF1; k++)
+      {
+         if(nrefArEl[p]==numRefF1[k]) /* Si l'une des arêtes (identifiée par son numéro global) est dans numRefF1 */
+         {
+                  printf("HEY ! L'arête %d est concernée !", numRefF1[k]);
+                  float **coorAret;
+                  coorAret = alloctab_float(2,2);
+                  int nodeAret[2]; /* Numéros locaux de l'arête */
+                  numNaret(p, nbeel, nodeAret);
+                  printf("Ses numéros locaux sont : %d et %d \n", nodeAret[0],nodeAret[1]);
+                  coorAret[0][0] = coorEl[nodeAret[0]][0]; /* Récupération des coordonnées globales de l'arête */
+                  coorAret[0][1] = coorEl[nodeAret[0]][1];
+                  coorAret[1][0] = coorEl[nodeAret[1]][0];
+                  coorAret[1][1] = coorEl[nodeAret[1]][1];
+                  printf("Les coordonnées du premier noeud sont : %f,%f\n",coorAret[0][0],coorAret[0][1]);
+                  printf("Les coordonnées du second noeud sont : %f, %f\n",coorAret[1][0],coorAret[1][1]);
+                  intAret(nodeAret,nbeel,coorAret, MatElem, SMbrElem); /* Prise en compte des intégrales sur les arêtes */
+         }
+      }
+   }
 }

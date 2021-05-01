@@ -27,6 +27,12 @@ void intElem(int typEl,
 	     float **MatElem,
 	     float *SMbrElem);
 
+void intAret(int *locNod,
+             int nbeel,
+	     float **coorEl,
+	     float **MatElem,
+	     float *SMbrElem);
+
 void cal1Elem(int nrefDom,
 	      int nbRefD0,
 	      int *numRefD0,

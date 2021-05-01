@@ -45,11 +45,11 @@ void intElem(
 
   float **DerFBase;
   DerFBase = alloctab_float(nbeel,2);
-  calDerFbase(nbeel,DerFBase);
+  calDerFbase(typEl,DerFBase);
 
   float **JFK;
   JFK = alloctab_float(2,2);
-  matJacob(nbeel, coorEl, DerFBase, JFK);
+  matJacob(typEl, coorEl, DerFBase, JFK);
 
   float eltdif;
   det_2x2(JFK, &eltdif);
@@ -59,12 +59,7 @@ void intElem(
     {
       /* Calcul de la valeur des fonctions de base sur les points de quadrature */
       float Fbase[nbeel];
-      calFbase(nbeel, quad_coords[w], Fbase);
-
-      printf("==========================================\n");
-      printf("w = %d\n",w);
-      printf("eltdif = %f\n",eltdif);
-      printf("weight = %f\n",weights[w]);
+      calFbase(typEl, quad_coords[w], Fbase);
 
       W(nbeel,
         Fbase,
@@ -72,11 +67,11 @@ void intElem(
         FOMEGA(quad_coords[w][0],quad_coords[w][1]),
         SMbrElem);
 
-      /*WW(nbeel,
+      WW(nbeel,
          Fbase,
          eltdif*weights[w],
          A00(quad_coords[w][0],quad_coords[w][1]),
-         MatElem);*/
+         MatElem);
 
      float **cofvar;
      cofvar = alloctab_float(2,2);

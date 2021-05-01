@@ -18,7 +18,7 @@ float A00(float x, float y){
     return 1.0;
     }
 
-float BN(float x, float y){
+float BN(float x){
     return 1.0;
     }
 
@@ -26,7 +26,7 @@ float FOMEGA(float x, float y){
     return 1.0;
     }
 
-float FN(float x, float y){
+float FN(float x){
     return 1.0;
     }
 

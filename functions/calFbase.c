@@ -21,10 +21,29 @@
 */
 /* Routine initilisant la valeur des n (nombre_nodes) fonctions de base au point de coordonnee coords*/
 
-void calFbase(int nombre_nodes_per_elements, float *coords, float *value)
+void calFbase(int type_element, float *coords, float *value)
 {
-   /* Cas du triangle : coordonnées barycentriques */
-   value[0] = coords[0];
-   value[1] = coords[1];
-   value[2] = 1 - coords[0] - coords[1];
+  switch(type_element)
+    {
+      case 1:
+	{
+          break;
+	}
+      case 2:
+	{
+          /* Cas du triangle : coordonnées barycentriques */
+          value[0] = coords[0];
+          value[1] = coords[1];
+          value[2] = 1 - coords[0] - coords[1];
+	  break;
+	}
+      case 3:
+	{
+          /* Cas du segment */
+          /* coords[0] représente l'abscisse linéaire */
+          value[0] = 1 - coords[0];
+          value[1] = coords[0];
+	  break;
+	}
+    }
 }
