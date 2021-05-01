@@ -199,7 +199,7 @@ int main()
   }
 
   AdPrCoefLi[nb_lignes-1] = NextAd;
-  nb_coefs = AdPrCoefLi[nb_lignes-1] - 1;
+  nb_coefs = AdPrCoefLi[nb_lignes-1]-1;
   printf("%d\n", nb_coefs);
 
   //printf("Entrez un nom pour le fichier SMD\n");
@@ -213,6 +213,8 @@ int main()
   int *AdPrCoLiO = (int*)malloc(nb_lignes*sizeof(int));
   float *MatriceO = (float*)malloc(nb_lignes+nb_coefs*sizeof(float));
   int *NumColO = (int*)malloc(nb_coefs*sizeof(int));
+
+  AdPrCoLiO[nb_lignes-1] = AdPrCoefLi[nb_lignes-1];
 
   // Assembler SMO
   cdesse_(&nb_lignes,
@@ -228,11 +230,42 @@ int main()
           MatriceO,
           SecMembreO);
 
+
+
   // AFficher SMO
   affsmo_(&nb_lignes, AdPrCoLiO, NumColO, MatriceO, SecMembreO);
 
-  //Assembler Stockage Profile
-  
+  // Variables Stockage Profile
+  int *Profil[nb_lignes];
+  float *MatProf = (float*)calloc(nb_lignes+nb_lignes, sizeof(float) );
+
+  int i, j, a, b, count;
+
+  // Assembler Stockage Profile
+  for (i=0; i<nb_lignes; i++) {
+    MatProf[i] = MatriceO[i];
+  }
+
+  for (j=0; j<nb_lignes; j++) {
+    i = AdPrCoLiO[j];
+    MatProf[nb_lignes+j+1] = MatriceO[nb_lignes+i-1];
+  }
+
+
+  // Variables décomposition LLT
+  float *diagL = (float*)malloc(nb_lignes*sizeof(float));
+  // TODO : find length
+  float *lowerL = (float*)malloc(nb_lignes*sizeof(float));
+  float *lowerMatProf = MatProf+nb_lignes+1;
+  float *Y = (float*)malloc(nb_lignes*sizeof(float))
+  float *X = (float*)malloc(nb_lignes*sizeof(float))
+  float eps = 0.0001;
+
+  // Résolution
+  ltlpr_(nb_lignes , Profil, MatProf, lowerMatProf, eps, diagL, lowerL);
+  rsprl_(nb_lignes, Profil, diagL, lowerL, SecMembreO, Y);
+  rspru_(nb_lignes, Profil, diagL, lowerL, Y, X);
+
 
   free(AdPrCoefLi);
   free(AdSuccLi);
@@ -246,4 +279,9 @@ int main()
   free(AdPrCoLiO);
   free(MatriceO);
   free(NumColO);
+
+  free(lowerL);
+  free(lowerMatProf);
+  free(Y);
+  free(X);
 }
