@@ -1,0 +1,16 @@
+Les fontions fortran étant susceptibles de changer de comportement en fontion de l'environnement, nous conseillons de recompiler tous les fichiers fortran lors de l'installation du projet sur un nouvel ordinateur. Ceci peut se faire automatiquement en exécutant le fichier "compile_fortran_func.sh". Il faut également après cela recompiler le programme principal en exécutant le fichier "compile_main.sh". Celui-ci produit un exécutable appelé "main". Il s'agit d'une application console permettant d'effectuer la résolution complète d'un problème sur un domaine avec un certain maillage. Les données du problèmes sont partie intégrante du programme, le fichier de maillage lui par contre doit être passé en argument à l'appel de la fonction. Comme ceux-ci sont contenus dans le dossier "mesh" il ne faut pas oublier de rajouter le nom du répertoire au nom du dossier, par exemple :
+
+$./main "mesh/d1t1_2"
+
+
+Pour produire la série de données correspondant à plusieurs problèmes, il faut procéder à plusieurs modifications du programme. L'oubli de certaines d'entre elles a été la cause de nombreuses erreurs de notre part. En voici donc la liste complète :
+
+- Modifier le fichier contenant les fonctions décrivant le problème. Celui-ci se trouve dans le répertoire fonctions et est intitulé "functions.c".
+
+- Modifier, si besoin est, le fichier contenant les numéros de référence à lire. Cela se fait à  la ligne 27 du fichier "main.c".
+
+- Modifier la fonction à utiliser pour le calcul de la fonction exacte. Cela se fait à la ligne 353 du fichier "main.c", en modifiant la valeur de la constante "nucas".
+
+- Le cas échéant, contrôler la sortie des résultats en modifiant le paramètre "file_in" ligne 358.
+
+ATTENTION ! Il ne faut surtout pas oublier de recompiler le programme pour prendre en compte ces modifications en exécutant le fichier "compile_main.sh".
